@@ -1,0 +1,39 @@
+HIFST=/home/wjb31/src/hifst.mlsalt-cpu1.5Nov15/ucam-smt/
+export PATH=$PATH:$HIFST/bin
+export PATH=$PATH:$HIFST/externals/openfst-1.5.0/INSTALL_DIR/bin/
+
+#compile
+fstcompile --isymbols=isyms.txt --osymbols=osyms.txt comp.txt comp.fst
+
+fstdraw --isymbols=isyms.txt --osymbols=osyms.txt result2.fst result2.dot
+dot -Tjpg result.dot > result2.jpg
+
+
+fstarcsort --sort_type=olabel input.fst input_sorted.fst
+
+fstarcsort --sort_type=ilabel model.fst model_sorted.fst
+
+fstcompose input_sorted.fst model_sorted.fst comp.fst
+
+
+fstrmepsilon result.fst | fstdeterminize | fstminimize - result2.fst
+
+ <<'COMMENT'
+Create an automaton that:
+(a) Accepts a letter in L (including space).
+(b) Accepts a single space.
+(c) Accepts a capitalized word (where a word is a string of letters in L excluding space and a capitalized word has its initial letter uppercase and remaining letters lowercase)
+(d) Accepts a word containing the letter a.
+COMMENT
+
+DIR=/home/wjb31/MLSALT/MLSALT8/practicals/practical
+DIR/table1.txt
+
+
+# (a) Accepts a letter in L (including space).
+fstcompile --isymbols=DIR/table1.txt letter.txt letter.fst 
+
+fsmcompile -i L.sym < space.txt > space.fsa #c) ./fsmcompile -i L.sym< capitalword.txt>capitalword.fsa #d) ./fsmcompile -i L.sym< noncapword.txt >noncapword.fsa ./fsmcompile -i L.sym< a.txt>a.fsa ./fsmconcat noncapword.fsa a.fsa > semiword.fsa ./fsmconcat semiword.fsa noncapword.fsa > word_with_a.fsa ./fsmdraw -i L.sym word_with_a.sps # #Problem 2 ./fsmconcat capitalword.fsa space.fsa > non-closed-words.fsa ./fsmclosure non-closed-words.fsa > words.fsa ./fsmdraw -i L.sym words.sps # #Problem 3 #a) ./fsmcompile -t -i L.sym -o L.sym < rot13.txt > rot13.fst #b) ./fsmcompile -i L.symmessage.fsa ./fsmcompose message.fsa rot13.fst | ./fsmbestpath | ./fsminvert | ./fsmproject | ./fsmprint -i L.sym -o L.sym> encoded.txt #Problem 4 #a) ./fsmcompile -t -i L.sym -o L.sym < problem4.txt> problem4.fst ./fsmdraw -i L.sym -o L.sym problem4.sps b) ./fsmcompile -i L.symsen1.fsa ./fsmcompile -i L.symsen2.fsa ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath | ./fsmprint -i L.sym -o L.sym> encoded2.txt ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath -n 2 | ./fsmprint -i L.sym -o L.sym> encoded3.txt 
+
+
+cat space.txt 0 1 1 cat capitalwo rd.txt 0 1 A 0 1 B 0 1 C 0 1 D 0 1 E 0 1 F 0 1 G 0 1 H 0 1 I 0 1 J 0 1 K 0 1 L 0 1 M 0 1 N 0 1 O 0 1 P 0 1 Q 0 1 R 0 1 S 0 1 T 0 1 U 0 1 V 0 1 W 0 1 X 0 1 Y 0 1 Y 0 1 Z 1 1 a 1 1 b 1 1 c 1 1 d 1 1 e 1 1 f 1 1 g 1 1 h 1 1 i 1 1 j 1 1 k 1 1 l 1 1 m 1 1 n 1 1 o 1 1 p 1 1 q 1 1 r 1 1 s 1 1 t 1 1 u 1 1 v 1 1 w 1 1 x 1 1 y 1 1 z 1 cat a.txt 0 1 a 1 cat noncapwor d.txt 0 0 a 0 0 b 0 0 c 0 0 d 0 0 e 0 0 f 0 0 g 0 0 h 0 0 i 0 0 j 0 0 k 0 0 l 0 0 m 0 0 n 0 0 o 0 0 p 0 0 q 0 0 r 0 0 s 0 0 t 0 0 u 0 0 v 0 0 w 0 0 x 0 0 y 0 0 z 0 cat rot13.txt 0 0 a n 0 0 b o 0 0 c p 0 0 d q 0 0 e r 0 0 f s 0 0 g t 0 0 h u 0 0 i v 0 0 j w 0 0 k x 0 0 l y 0 0 m z 0 0 n a 0 0 o b 0 0 p c 0 0 q d 0 0 r e 0 0 s f 0 0 t g 0 0 u h 0 0 v i 0 0 w j 0 0 x k 0 0 y l 0 0 z m 0 0 0 cat problem4. txt 0 0 A A 0 0 0 G G 0 0 0 T T 0 0 0 C C 0 0 0 A 1 0 0 G 1 0 0 T 1 0 0 C 1 0 0 A 1 0 0 G 1 0 0 T 1 0 0 C 1 0 0 A G 1 0 0 A T 1 0 0 A C 1 0 0 T A 1 0 0 T G 1 0 0 T C 1 0 0 G A 1 0 0 G T 1 0 0 G C 1 0 0 C G 1 0 0 C T 1 0 0 C A 1 0 cat message.t xt 0 1 m 1 2 y 2 3 3 4 s 4 5 e 5 6 c 6 7 r 7 8 e 8 9 t 9 10 10 11 m 11 12 e 12 13 s 13 14 s 14 15 a 15 16 g 16 17 e 17 cat encoded.txt 0 1 z 1 2 l 2 3 3 4 f 4 5 r 5 6 p 6 7 e 7 8 r 8 9 g 9 10 10 11 z 11 12 r 12 13 f 13 14 f 14 15 n 15 16 t 16 17 r 17 cat sen1.txt 0 1 A 1 2 T 2 3 T 3 4 C 4 5 A 5 6 C 6 cat sen2.txt 0 1 A 1 2 G 2 3 T 3 4 C 4 5 C 5 cat encoded2.txt 0 1 A A 1 2 T G 1 2 3 T T 3 4 C C 4 5 A 1 5 6 C C 6 cat encoded3.txt 0 1 0 8 1 2 A A 2 3 T G 1 3 4 T T 4 5 C C 5 6 A 1 6 7 C C 7 8 9 A A 9 10 T G 1 
