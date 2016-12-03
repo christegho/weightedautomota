@@ -71,10 +71,12 @@ dot -Tjpg p2c.dot > p2c.jpg
 # (d) Accepts a word that is capitalized or does not contain an a.
 fstdifference letter2.fst space.fst > letters2.fst
 fstclosure letters2.fst > words_no_space2.fst
-#fstrmepsilon word_with_a2.fst | fstdeterminize - word_with_a2_sorted.fst
-fstdifference words_no_space2.fst  word_with_a2_sorted.fst > words_no_space_no_a.fst
+fstrmepsilon words_no_space2.fst | fstdeterminize - words_no_space_sorted2.fst
+fstdifference word_with_a2.fst words_no_space_sorted2.fst > words_no_space_no_a.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt words_no_space_no_a.fst words_no_space_no_a.dot
 dot -Tjpg words_no_space_no_a.dot > words_no_space_no_a.jpg
+
+
 
 fstarcsort words_no_space_no_a.fst words_no_space_no_a2.fst
 fstunion words_no_space_no_a2.fst capitalword.fst p2d.fst
@@ -93,6 +95,9 @@ printstrings.O2 --label-map=table1.txt --input=${file3}o.fst -n 10 -w
 file=word_with_a_sorted2
 fstdraw --isymbols=table1.txt --osymbols=table1.txt  $file.fst  $file.dot
 dot -Tjpg  $file.dot >  $file.jpg
+
+
+
 
 # (e) Accepts a word that is capitalized or does not contain an a without using fstunion
 \item A = \{{Capitalized words U uncapitalized words without a}\}

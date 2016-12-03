@@ -1,0 +1,68 @@
+digraph FST {
+rankdir = LR;
+size = "8.5,11";
+label = "";
+center = 1;
+orientation = Landscape;
+ranksep = "0.4";
+nodesep = "0.25";
+0 [label = "0", shape = circle, style = bold, fontsize = 14]
+	0 -> 0 [label = "a:a", fontsize = 14];
+	0 -> 0 [label = "b:b", fontsize = 14];
+	0 -> 0 [label = "c:c", fontsize = 14];
+	0 -> 0 [label = "d:d", fontsize = 14];
+	0 -> 0 [label = "e:e", fontsize = 14];
+	0 -> 0 [label = "f:f", fontsize = 14];
+	0 -> 0 [label = "g:g", fontsize = 14];
+	0 -> 0 [label = "h:h", fontsize = 14];
+	0 -> 0 [label = "i:i", fontsize = 14];
+	0 -> 0 [label = "j:j", fontsize = 14];
+	0 -> 0 [label = "k:k", fontsize = 14];
+	0 -> 0 [label = "l:l", fontsize = 14];
+	0 -> 0 [label = "m:m", fontsize = 14];
+	0 -> 0 [label = "n:n", fontsize = 14];
+	0 -> 0 [label = "o:o", fontsize = 14];
+	0 -> 0 [label = "p:p", fontsize = 14];
+	0 -> 0 [label = "q:q", fontsize = 14];
+	0 -> 0 [label = "r:r", fontsize = 14];
+	0 -> 0 [label = "s:s", fontsize = 14];
+	0 -> 0 [label = "t:t", fontsize = 14];
+	0 -> 0 [label = "u:u", fontsize = 14];
+	0 -> 0 [label = "v:v", fontsize = 14];
+	0 -> 0 [label = "w:w", fontsize = 14];
+	0 -> 0 [label = "x:x", fontsize = 14];
+	0 -> 0 [label = "y:y", fontsize = 14];
+	0 -> 0 [label = "z:z", fontsize = 14];
+	0 -> 1 [label = "<eps>:<eps>", fontsize = 14];
+1 [label = "1", shape = circle, style = solid, fontsize = 14]
+	1 -> 2 [label = "a:a", fontsize = 14];
+2 [label = "2", shape = circle, style = solid, fontsize = 14]
+	2 -> 3 [label = "<eps>:<eps>", fontsize = 14];
+3 [label = "3", shape = doublecircle, style = solid, fontsize = 14]
+	3 -> 3 [label = "a:a", fontsize = 14];
+	3 -> 3 [label = "b:b", fontsize = 14];
+	3 -> 3 [label = "c:c", fontsize = 14];
+	3 -> 3 [label = "d:d", fontsize = 14];
+	3 -> 3 [label = "e:e", fontsize = 14];
+	3 -> 3 [label = "f:f", fontsize = 14];
+	3 -> 3 [label = "g:g", fontsize = 14];
+	3 -> 3 [label = "h:h", fontsize = 14];
+	3 -> 3 [label = "i:i", fontsize = 14];
+	3 -> 3 [label = "j:j", fontsize = 14];
+	3 -> 3 [label = "k:k", fontsize = 14];
+	3 -> 3 [label = "l:l", fontsize = 14];
+	3 -> 3 [label = "m:m", fontsize = 14];
+	3 -> 3 [label = "n:n", fontsize = 14];
+	3 -> 3 [label = "o:o", fontsize = 14];
+	3 -> 3 [label = "p:p", fontsize = 14];
+	3 -> 3 [label = "q:q", fontsize = 14];
+	3 -> 3 [label = "r:r", fontsize = 14];
+	3 -> 3 [label = "s:s", fontsize = 14];
+	3 -> 3 [label = "t:t", fontsize = 14];
+	3 -> 3 [label = "u:u", fontsize = 14];
+	3 -> 3 [label = "v:v", fontsize = 14];
+	3 -> 3 [label = "w:w", fontsize = 14];
+	3 -> 3 [label = "x:x", fontsize = 14];
+	3 -> 3 [label = "y:y", fontsize = 14];
+	3 -> 3 [label = "z:z", fontsize = 14];
+}
