@@ -1,0 +1,39 @@
+digraph FST {
+rankdir = LR;
+size = "8.5,11";
+label = "";
+center = 1;
+orientation = Landscape;
+ranksep = "0.4";
+nodesep = "0.25";
+0 [label = "0", shape = doublecircle, style = bold, fontsize = 14]
+	0 -> 0 [label = "a:q", fontsize = 14];
+	0 -> 0 [label = "b:r", fontsize = 14];
+	0 -> 0 [label = "c:s", fontsize = 14];
+	0 -> 0 [label = "d:t", fontsize = 14];
+	0 -> 0 [label = "e:u", fontsize = 14];
+	0 -> 0 [label = "f:v", fontsize = 14];
+	0 -> 0 [label = "g:w", fontsize = 14];
+	0 -> 0 [label = "h:x", fontsize = 14];
+	0 -> 0 [label = "i:y", fontsize = 14];
+	0 -> 0 [label = "j:z", fontsize = 14];
+	0 -> 0 [label = "k:a", fontsize = 14];
+	0 -> 0 [label = "l:b", fontsize = 14];
+	0 -> 0 [label = "m:c", fontsize = 14];
+	0 -> 0 [label = "n:d", fontsize = 14];
+	0 -> 0 [label = "o:e", fontsize = 14];
+	0 -> 0 [label = "p:f", fontsize = 14];
+	0 -> 0 [label = "q:g", fontsize = 14];
+	0 -> 0 [label = "r:h", fontsize = 14];
+	0 -> 0 [label = "s:i", fontsize = 14];
+	0 -> 0 [label = "t:j", fontsize = 14];
+	0 -> 0 [label = "u:k", fontsize = 14];
+	0 -> 0 [label = "v:l", fontsize = 14];
+	0 -> 0 [label = "w:m", fontsize = 14];
+	0 -> 0 [label = "x:n", fontsize = 14];
+	0 -> 0 [label = "y:o", fontsize = 14];
+	0 -> 0 [label = "z:p", fontsize = 14];
+	0 -> 0 [label = "<space>:<space>", fontsize = 14];
+	0 -> 0 [label = ".:.", fontsize = 14];
+	0 -> 0 [label = ",:,", fontsize = 14];
+}
