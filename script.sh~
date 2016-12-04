@@ -23,7 +23,7 @@ COMMENT
 
 #Part 1
 #Exercise 1
-DIR=/home/wjb31/MLSALT/MLSALT8/practicals/practical
+DIR=/home/wjb31/MLSALT/MLSALT3/practical/files
 
 # (a) Accepts a letter in L (including space).
 fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor letter.txt letter.fst 
@@ -31,7 +31,7 @@ fstdraw --isymbols=table1.txt --osymbols=table1.txt letter.fst letter.dot
 dot -Tjpg letter.dot > letter.jpg
 
 # (b) Accepts a single space.
-fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor space.txt space.fst 
+c
 fstdraw --isymbols=table1.txt --osymbols=table1.txt  space.fst space.dot
 dot -Tjpg space.dot > space.jpg
 
@@ -71,12 +71,10 @@ dot -Tjpg p2c.dot > p2c.jpg
 # (d) Accepts a word that is capitalized or does not contain an a.
 fstdifference letter2.fst space.fst > letters2.fst
 fstclosure letters2.fst > words_no_space2.fst
-fstrmepsilon words_no_space2.fst | fstdeterminize - words_no_space_sorted2.fst
-fstdifference word_with_a2.fst words_no_space_sorted2.fst > words_no_space_no_a.fst
+#fstrmepsilon word_with_a2.fst | fstdeterminize - word_with_a2_sorted.fst
+fstdifference words_no_space2.fst  word_with_a2_sorted.fst > words_no_space_no_a.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt words_no_space_no_a.fst words_no_space_no_a.dot
 dot -Tjpg words_no_space_no_a.dot > words_no_space_no_a.jpg
-
-
 
 fstarcsort words_no_space_no_a.fst words_no_space_no_a2.fst
 fstunion words_no_space_no_a2.fst capitalword.fst p2d.fst
@@ -96,9 +94,6 @@ file=word_with_a_sorted2
 fstdraw --isymbols=table1.txt --osymbols=table1.txt  $file.fst  $file.dot
 dot -Tjpg  $file.dot >  $file.jpg
 
-
-
-
 # (e) Accepts a word that is capitalized or does not contain an a without using fstunion
 \item A = \{{Capitalized words U uncapitalized words without a}\}
 \item B = \{All possible words\} 
@@ -110,6 +105,17 @@ fstdifference uncapitalword.fst word_with_a.dot
 \item D = B - \{Capitalized words\}
 \item C =  D - \{a\} 
 \item A = B - C
+
+#Exercise 3
+#Transducer to map numbers to their English read form
+for file in singleDigit twoDigits tenth onetenth zero manyzeros thousand hundred
+do
+	fstcompile --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt  $file.txt $file.fst
+done
+
+fstconcat onethenth.fst twoDigits.fst ten.fst
+fstunion ten.fst singleDigit.fst one.fst
+fstconcat thenth.fst ten.fst 
 
 
 #Problem 3 #a) ./fsmcompile -t -i L.sym -o L.sym < rot13.txt > rot13.fst #b) ./fsmcompile -i L.symmessage.fsa ./fsmcompose message.fsa rot13.fst | ./fsmbestpath | ./fsminvert | ./fsmproject | ./fsmprint -i L.sym -o L.sym> encoded.txt #Problem 4 #a) ./fsmcompile -t -i L.sym -o L.sym < problem4.txt> problem4.fst ./fsmdraw -i L.sym -o L.sym problem4.sps b) ./fsmcompile -i L.symsen1.fsa ./fsmcompile -i L.symsen2.fsa ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath | ./fsmprint -i L.sym -o L.sym> encoded2.txt ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath -n 2 | ./fsmprint -i L.sym -o L.sym> encoded3.txt 

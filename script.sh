@@ -23,7 +23,7 @@ COMMENT
 
 #Part 1
 #Exercise 1
-DIR=/home/wjb31/MLSALT/MLSALT8/practicals/practical
+DIR=/home/wjb31/MLSALT/MLSALT3/practical/files
 
 # (a) Accepts a letter in L (including space).
 fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor letter.txt letter.fst 
@@ -31,7 +31,7 @@ fstdraw --isymbols=table1.txt --osymbols=table1.txt letter.fst letter.dot
 dot -Tjpg letter.dot > letter.jpg
 
 # (b) Accepts a single space.
-fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor space.txt space.fst 
+c
 fstdraw --isymbols=table1.txt --osymbols=table1.txt  space.fst space.dot
 dot -Tjpg space.dot > space.jpg
 
@@ -90,9 +90,7 @@ fstarcsort ${file3}.fst ${file3}2.fst
 fstproject ${file3}2.fst ${file3}o.fst
 printstrings.O2 --label-map=table1.txt --input=${file3}o.fst -n 10 -w
 
-file=word_with_a_sorted2
-fstdraw --isymbols=table1.txt --osymbols=table1.txt  $file.fst  $file.dot
-dot -Tjpg  $file.dot >  $file.jpg
+
 
 # (e) Accepts a word that is capitalized or does not contain an a without using fstunion
 \item A = \{{Capitalized words U uncapitalized words without a}\}
@@ -106,6 +104,29 @@ fstdifference uncapitalword.fst word_with_a.dot
 \item C =  D - \{a\} 
 \item A = B - C
 
+#Exercise 3
+#Transducer to map numbers to their English read form
+for file in singleDigit twoDigits tenth onetenth zero manyzeros thousand hundred zeroeps
+do
+	fstcompile --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt  $file.txt $file.fst
+done
+
+fstconcat onethenth.fst twoDigits.fst ten.fst
+fstunion zeroeps.fst singleDigit.fst semitwenty.fst
+fstconcat tenth.fst semitwenty.fst twenty.fst
+fstconcat zeroeps.fst singleDigit.fst zeroone.fst
+fstunion twenty.fst zeroone.fst twentyandone.fst
+fstunion twentyandone ten.fst alltwodigits.fst
+fstconcat zeroeps.fst zeroeps.fst twozeros.fst
+fstunion twozeos.fst alltwodigits.fst alltwodigitszeros.fst
+fstconcat hundred.fst alltwodigitszeros.fst allhundreds.fst
+fstconcat hundred.fst alltwodigits.fst 
+
+c thenth.fst ten.fst 
+
+file=word_with_a_sorted2
+fstdraw --isymbols=table1.txt --osymbols=table1.txt  $file.fst  $file.dot
+dot -Tjpg  $file.dot >  $file.jpg
 
 #Problem 3 #a) ./fsmcompile -t -i L.sym -o L.sym < rot13.txt > rot13.fst #b) ./fsmcompile -i L.symmessage.fsa ./fsmcompose message.fsa rot13.fst | ./fsmbestpath | ./fsminvert | ./fsmproject | ./fsmprint -i L.sym -o L.sym> encoded.txt #Problem 4 #a) ./fsmcompile -t -i L.sym -o L.sym < problem4.txt> problem4.fst ./fsmdraw -i L.sym -o L.sym problem4.sps b) ./fsmcompile -i L.symsen1.fsa ./fsmcompile -i L.symsen2.fsa ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath | ./fsmprint -i L.sym -o L.sym> encoded2.txt ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath -n 2 | ./fsmprint -i L.sym -o L.sym> encoded3.txt 
 
