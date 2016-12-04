@@ -81,18 +81,8 @@ fstunion words_no_space_no_a2.fst capitalword.fst p2d.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt p2d.fst p2d.dot
 dot -Tjpg p2d.dot > p2d.jpg 
 
-file=in
-fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor  $file.txt $file.fst
-file2=words_no_space_no_a
-fstcompose  ${file}.fst ${file2}.fst  ou.fst
-file3=ou
-fstarcsort ${file3}.fst ${file3}2.fst
-fstproject ${file3}2.fst ${file3}o.fst
-printstrings.O2 --label-map=table1.txt --input=${file3}o.fst -n 10 -w
 
-file=word_with_a_sorted2
-fstdraw --isymbols=table1.txt --osymbols=table1.txt  $file.fst  $file.dot
-dot -Tjpg  $file.dot >  $file.jpg
+
 
 # (e) Accepts a word that is capitalized or does not contain an a without using fstunion
 \item A = \{{Capitalized words U uncapitalized words without a}\}
@@ -108,14 +98,66 @@ fstdifference uncapitalword.fst word_with_a.dot
 
 #Exercise 3
 #Transducer to map numbers to their English read form
-for file in singleDigit twoDigits tenth onetenth zero manyzeros thousand hundred
+for file in singleDigit twoDigits tenth onetenth zero manyzeros thousand hundred zeroeps
 do
 	fstcompile --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt  $file.txt $file.fst
 done
 
-fstconcat onethenth.fst twoDigits.fst ten.fst
-fstunion ten.fst singleDigit.fst one.fst
-fstconcat thenth.fst ten.fst 
+# A = 10, 11, 12
+fstconcat onetenth.fst twoDigits.fst ten.fst
+# B = 20, 30, 40 ... 21, 22, 23 , ... , 31, 32 ... 
+fstunion zeroeps.fst singleDigit.fst semitwenty.fst
+fstconcat tenth.fst semitwenty.fst twenty.fst
+# C = 01, 02, 03, 04, 05
+fstconcat zeroeps.fst singleDigit.fst zeroone.fst
+# D = B U C
+fstunion twenty.fst zeroone.fst twentyandone.fst
+# E = D U A
+fstunion twentyandone.fst ten.fst alltwodigits.fst
+# F = 00
+fstconcat zeroeps.fst zeroeps.fst twozeros.fst
+# J = E U F
+fstunion twozeros.fst alltwodigits.fst alltwodigitszeros.fst
+# K = 100, 101, 111, 120, 121 ...
+fstconcat hundred.fst alltwodigitszeros.fst allhundreds.fst
+fstconcat singleDigit.fst allhundreds.fst fullhundreds.fst
+
+# L = 0J
+fstconcat zeroeps.fst alltwodigitszeros.fst alltwodigitszerozero.fst
+# M = eps100, eps001, eps011, eps011, etc.
+fstunion alltwodigitszerozero.fst fullhundreds.fst semiL.fst
+fstconcat thousand.fst semiL.fst allthousands.fst
+
+# O = A U C
+fstunion twentyandone.fst ten.fst tenzeroone.fst
+# P = ON 2001, 2011, etc.
+fstconcat tenzeroone.fst allthousands.fst fullthousands.fst
+
+fstunion zero.fst fullthousands.fst Q.fst
+fstunion Q.fst fullhundreds.fst R.fst
+fstunion R.fst tenzeroone.fst allnumbers.fst
+fstconcat manyzeros.fst allnumbers.fst fullnumbers.fst
+fstrmepsilon fullnumbers.fst fullnumbersnoeps.fst
+fstdeterminize fullnumbersnoeps.fst fullnumbersdeterminized.fst
+
+#draw
+file=fullnumbersnoeps
+fstdraw --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt  $file.fst  $file.dot
+dot -Tjpg  $file.dot >  $file.jpg
+
+
+#testinput
+file=in
+fstcompile --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt --acceptor  $file.txt $file.fst
+file2=fullnumbersnoeps
+fstcompose  ${file}.fst ${file2}.fst  ou.fst
+file3=ou
+fstarcsort ${file3}.fst ${file3}2.fst
+fstproject --project_output ${file3}2.fst ${file3}o.fst
+printstrings.O2 --label-map=$DIR/table3.txt --input=${file3}o.fst -n 10 -w
+fstdraw --isymbols=$DIR/table3.txt --osymbols=$DIR/table3.txt  ${file3}o.fst  ${file3}o.dot
+dot -Tjpg  ${file3}o.dot >  ${file3}o.jpg
+
 
 
 #Problem 3 #a) ./fsmcompile -t -i L.sym -o L.sym < rot13.txt > rot13.fst #b) ./fsmcompile -i L.symmessage.fsa ./fsmcompose message.fsa rot13.fst | ./fsmbestpath | ./fsminvert | ./fsmproject | ./fsmprint -i L.sym -o L.sym> encoded.txt #Problem 4 #a) ./fsmcompile -t -i L.sym -o L.sym < problem4.txt> problem4.fst ./fsmdraw -i L.sym -o L.sym problem4.sps b) ./fsmcompile -i L.symsen1.fsa ./fsmcompile -i L.symsen2.fsa ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath | ./fsmprint -i L.sym -o L.sym> encoded2.txt ./fsmcompose sen1.fsa problem4.fst sen2.fsa | ./fsmbestpath -n 2 | ./fsmprint -i L.sym -o L.sym> encoded3.txt 

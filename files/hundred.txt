@@ -1,2 +1,2 @@
-0 1 1 hundred
+0 1 <eps> hundred
 1

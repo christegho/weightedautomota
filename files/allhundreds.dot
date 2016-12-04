@@ -1,0 +1,80 @@
+digraph FST {
+rankdir = LR;
+size = "8.5,11";
+label = "";
+center = 1;
+orientation = Landscape;
+ranksep = "0.4";
+nodesep = "0.25";
+0 [label = "0", shape = circle, style = bold, fontsize = 14]
+	0 -> 1 [label = "1:hundred", fontsize = 14];
+1 [label = "1", shape = circle, style = solid, fontsize = 14]
+	1 -> 2 [label = "<eps>:<eps>", fontsize = 14];
+2 [label = "2", shape = circle, style = solid, fontsize = 14]
+	2 -> 3 [label = "0:<eps>", fontsize = 14];
+	2 -> 6 [label = "<eps>:<eps>", fontsize = 14];
+3 [label = "3", shape = circle, style = solid, fontsize = 14]
+	3 -> 4 [label = "<eps>:<eps>", fontsize = 14];
+4 [label = "4", shape = circle, style = solid, fontsize = 14]
+	4 -> 5 [label = "0:<eps>", fontsize = 14];
+5 [label = "5", shape = doublecircle, style = solid, fontsize = 14]
+6 [label = "6", shape = circle, style = solid, fontsize = 14]
+	6 -> 7 [label = "2:twenty", fontsize = 14];
+	6 -> 7 [label = "3:thirty", fontsize = 14];
+	6 -> 7 [label = "4:forty", fontsize = 14];
+	6 -> 7 [label = "5:fifty", fontsize = 14];
+	6 -> 7 [label = "6:sixty", fontsize = 14];
+	6 -> 7 [label = "7:seventy", fontsize = 14];
+	6 -> 7 [label = "8:eighty", fontsize = 14];
+	6 -> 7 [label = "9:ninety", fontsize = 14];
+	6 -> 12 [label = "<eps>:<eps>", fontsize = 14];
+	6 -> 16 [label = "<eps>:<eps>", fontsize = 14];
+7 [label = "7", shape = circle, style = solid, fontsize = 14]
+	7 -> 8 [label = "<eps>:<eps>", fontsize = 14];
+8 [label = "8", shape = circle, style = solid, fontsize = 14]
+	8 -> 9 [label = "0:<eps>", fontsize = 14];
+	8 -> 10 [label = "<eps>:<eps>", fontsize = 14];
+9 [label = "9", shape = doublecircle, style = solid, fontsize = 14]
+10 [label = "10", shape = circle, style = solid, fontsize = 14]
+	10 -> 11 [label = "1:one", fontsize = 14];
+	10 -> 11 [label = "2:two", fontsize = 14];
+	10 -> 11 [label = "3:three", fontsize = 14];
+	10 -> 11 [label = "4:four", fontsize = 14];
+	10 -> 11 [label = "5:five", fontsize = 14];
+	10 -> 11 [label = "6:six", fontsize = 14];
+	10 -> 11 [label = "7:seven", fontsize = 14];
+	10 -> 11 [label = "8:eight", fontsize = 14];
+	10 -> 11 [label = "9:nine", fontsize = 14];
+11 [label = "11", shape = doublecircle, style = solid, fontsize = 14]
+12 [label = "12", shape = circle, style = solid, fontsize = 14]
+	12 -> 13 [label = "0:<eps>", fontsize = 14];
+13 [label = "13", shape = circle, style = solid, fontsize = 14]
+	13 -> 14 [label = "<eps>:<eps>", fontsize = 14];
+14 [label = "14", shape = circle, style = solid, fontsize = 14]
+	14 -> 15 [label = "1:one", fontsize = 14];
+	14 -> 15 [label = "2:two", fontsize = 14];
+	14 -> 15 [label = "3:three", fontsize = 14];
+	14 -> 15 [label = "4:four", fontsize = 14];
+	14 -> 15 [label = "5:five", fontsize = 14];
+	14 -> 15 [label = "6:six", fontsize = 14];
+	14 -> 15 [label = "7:seven", fontsize = 14];
+	14 -> 15 [label = "8:eight", fontsize = 14];
+	14 -> 15 [label = "9:nine", fontsize = 14];
+15 [label = "15", shape = doublecircle, style = solid, fontsize = 14]
+16 [label = "16", shape = circle, style = solid, fontsize = 14]
+	16 -> 17 [label = "1:<eps>", fontsize = 14];
+17 [label = "17", shape = circle, style = solid, fontsize = 14]
+	17 -> 18 [label = "<eps>:<eps>", fontsize = 14];
+18 [label = "18", shape = circle, style = solid, fontsize = 14]
+	18 -> 19 [label = "0:ten", fontsize = 14];
+	18 -> 19 [label = "1:eleven", fontsize = 14];
+	18 -> 19 [label = "2:twelve", fontsize = 14];
+	18 -> 19 [label = "3:thirteen", fontsize = 14];
+	18 -> 19 [label = "4:fourteen", fontsize = 14];
+	18 -> 19 [label = "5:fifteen", fontsize = 14];
+	18 -> 19 [label = "6:sixteen", fontsize = 14];
+	18 -> 19 [label = "7:seventeen", fontsize = 14];
+	18 -> 19 [label = "8:eighteen", fontsize = 14];
+	18 -> 19 [label = "9:nineteen", fontsize = 14];
+19 [label = "19", shape = doublecircle, style = solid, fontsize = 14]
+}
