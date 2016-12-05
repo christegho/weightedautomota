@@ -1,0 +1,27 @@
+#!/usr/bin/python
+def make_fst(fstName):
+for lopop in range(1):
+    with open( 'swapletters.txt', 'w') as f:
+        # NO_OP on <space> and punctuation
+        f.write("""0 999 <space> <space>
+0 999 . .
+0 999 , ,
+""")
+        for i, m in enumerate([chr(n) for n in range(ord('a'), ord('c')+1)]):
+            # single letters do not get swapped
+            f.write("0 {0} {1} {1}\n".format(999, m))
+            # 0 1 a eps - 0 2 b eps etc.
+            f.write("0 {0} {1} <eps>\n".format(i+1, m))
+            for k, z in enumerate([chr(l) for l in range(ord('a'), ord('c')+1)]):
+                #  1 11 a aa - 1 12 b ba 
+                f.write("{0} {1}{2} {3} {4}{5}\n".format(i+1, i+1, k, z, z, m))
+        f.write("999\n")
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description='Generate FST description for swapping letters')
+    parser.add_argument('fstName', metavar='N', type=str,
+                               help='name of the .txt file to output')
+    args = parser.parse_args()
+    make_fst(args.fstName)
+

@@ -136,9 +136,7 @@ fstconcat tenzeroone.fst allthousands.fst fullthousands.fst
 fstunion zero.fst fullthousands.fst Q.fst
 fstunion Q.fst fullhundreds.fst R.fst
 fstunion R.fst tenzeroone.fst allnumbers.fst
-fstconcat manyzeros.fst allnumbers.fst fullnumbers.fst
-fstrmepsilon fullnumbers.fst fullnumbersnoeps.fst
-fstminimize fullnumbersnoeps.fst fullnumbersdisambuaguated.fst
+fstconcat manyzeros.fst allnumbers.fst | fstrmepsilon - fullnumbersnoeps.fst
 
 #draw
 file=fullnumbersdisambuaguated
@@ -194,6 +192,17 @@ fstcompose output3c2.fst $DIR/4.lm.fst output3d.fst
 printstrings.O2 --label-map=$DIR/table4.txt --input=output3d.fst -n 10 -w 2> /dev/null 
 
 #e decoding tranducer by allowing some pairs of consecutive letters to be swapped
+for file in swapletters swaplettersac
+do 
+	fstcompile --isymbols=$DIR/table4.txt --osymbols=$DIR/table4.txt  $file.txt $file.fst
+	fstdraw --isymbols=$DIR/table4.txt --osymbols=$DIR/table4.txt  ${file}.fst  ${file}.dot
+	dot -Tjpg  ${file}.dot >  ${file}.jpg
+done
+
+fstclosure swapletters.fst swaplettersclosed.fst
+fstcompose $DIR/4.encoded2.fst rot13.fst encrot13.fst
+fstcompose encrot13.fst swaplettersclosed.fst | fstproject --project_output | fstrmepsilon | fstdeterminize |fstminimize | fstcompose $DIR/4.lm.fst - output3e.fst
+printstrings.O2 --label-map=$DIR/table4.txt --input=output3e.fst -n 10 -w 2> /dev/null 
 
 #draw
 file=rot1316
