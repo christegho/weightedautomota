@@ -43,10 +43,21 @@ dot -Tjpg capitalword.dot > capitalword.jpg
 #(d) Accepts a word containing the letter a
 fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor noncapword.txt noncapword.fst 
 fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor a.txt a.fst 
-fstconcat noncapword.fst a.fst semiword.fst 
-fstconcat semiword.fst noncapword.fst word_with_a.fst
+fstrmepsilon noncapword.fst noncapword_noeps.fst 
+fstrmepsilon a.fst a_noeps.fst 
+fstconcat noncapword_noeps.fst a_noeps.fst semiword.fst 
+fstconcat semiword.fst noncapword_noeps.fst word_with_a.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt word_with_a.fst word_with_a.dot
 dot -Tjpg word_with_a.dot > word_with_a.jpg
+
+###
+fstcompile --isymbols=table1.txt --osymbols=table1.txt --acceptor p1d2.txt p1d2.fst 
+
+
+#draw
+file=p1d2
+fstdraw --isymbols=table1.txt --osymbols=table1.txt  ${file}.fst  ${file}.dot
+dot -Tjpg  ${file}.dot >  ${file}.jpg
 
 #Exercise 2
 # (a) Accepts zero or more capitalized words followed by spaces.
@@ -70,18 +81,42 @@ dot -Tjpg p2c.dot > p2c.jpg
 
 # (d) Accepts a word that is capitalized or does not contain an a.
 fstdifference letter2.fst space.fst > letters2.fst
-fstclosure letters2.fst > words_no_space2.fst
-#fstrmepsilon word_with_a2.fst | fstdeterminize - word_with_a2_sorted.fst
+fstclosure letter2.fst | fstproject --project_output  > words_no_space2.fst
+fstrmepsilon word_with_a2.fst | fstdeterminize - word_with_a2_sorted.fst
 fstdifference words_no_space2.fst  word_with_a2_sorted.fst > words_no_space_no_a.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt words_no_space_no_a.fst words_no_space_no_a.dot
 dot -Tjpg words_no_space_no_a.dot > words_no_space_no_a.jpg
+
+
+fstdifference letter2.fst space.fst > letters2.fst
+fstclosure letters2.fst | fstproject --project_output | fstrmepsilon > words_no_space2.fst
+fstdifference words_no_space2.fst  p1d2.fst > words_no_space_no_a.fst
+fstdraw --isymbols=table1.txt --osymbols=table1.txt words_no_space_no_a.fst words_no_space_no_a.dot
+dot -Tjpg words_no_space_no_a.dot > words_no_space_no_a.jpg
+
 
 fstarcsort words_no_space_no_a.fst words_no_space_no_a2.fst
 fstunion words_no_space_no_a2.fst capitalword.fst p2d.fst
 fstdraw --isymbols=table1.txt --osymbols=table1.txt p2d.fst p2d.dot
 dot -Tjpg p2d.dot > p2d.jpg 
 
+#draw
+fstclosure letters2.fst | fstproject --project_output | fstrmepsilon > words_no_space2.fst
+file=words_no_space2
+fstdraw --isymbols=table1.txt --osymbols=table1.txt  ${file}.fst  ${file}.dot
+dot -Tjpg  ${file}.dot >  ${file}.jpg
 
+
+# (d) Accepts a word that is capitalized or does not contain an a.
+fstdifference letter.fst space.fst letters.fst
+fstclosure letters.fst > all_words.fst
+fstminimize all_words.fst all_wordsmin.fst
+fstarcsort word_with_a.fst  word_with_a_sorted.fst
+fstminimize word_with_a.fst word_with_a_sorted2.fst
+fstdifference all_wordsmin.fst word_with_a_sorted2.fst > not_a.fst
+fstunion capitalword.fst not_a.fst > p2d.fst
+fstdraw --isymbols=table1.txt --osymbols=table1.txt p2d.fst p2d.dot
+dot -Tjpg p2d.dot > p2d.jpg 
 
 
 # (e) Accepts a word that is capitalized or does not contain an a without using fstunion
@@ -91,10 +126,34 @@ dot -Tjpg p2d.dot > p2d.jpg
 \item D = \{Uncapitalized words\}
 fstrmepsilon word_with_a_sorted.fst | fstdeterminize - word_with_a_sorted2.fst
 fstdifference words_no_space.fst capitalword.fst uncapitalword.fst
-fstdifference uncapitalword.fst word_with_a.dot 
+fstdifference uncapitalword.fst word_with_a.fst 
 \item D = B - \{Capitalized words\}
-\item C =  D - \{a\} 
-\item A = B - C
+
+\item A = B - D
+
+fstdifference letter.fst space.fst > p2d_letters.fst
+fstclosure p2d_letters.fst | fstdeterminize | fstminimize | fstrmepsilon | fstarcsort - words2d.fst
+fstdeterminize capitalword.fst capitalword2.fst
+fstdifference words2d.fst capitalword2.fst > uncap.fst
+fstarcsort word_with_a.fst | fstdeterminize | fstminimize | fstrmepsilon | fstarcsort - word_with_a_sorted.fst
+fstdifference words2d.fst word_with_a_sorted.fst > not_a.fst
+$ fstrmepsilon not_a.fst > no_epsilon_or_a.fst
+$ fstarcsort no_epsilon_or_a.fst > sorted_no_a.fst
+$ fstdifference uncap.fst sorted_no_a.fst > almost_there.fst
+$ fstrmepsilon almost_there.fst > no_epsilon_almost_there.fst
+$ fstarcsort no_epsilon_almost_there.fst > arcsort_there.fst
+$ fstdifference p2b_words.fst arcsort_there.fst > p2e.fst
+
+
+#d e final version
+fstdifference letter.fst space.fst letters.fst
+fstclosure letters.fst | fstdeterminize | fstrmepsilon - all_words.fst
+fstarcsort word_with_a.fst | fstrmepsilon | fstdeterminize  - word_with_a_determinized.fst
+fstdifference all_words.fst word_with_a_determinized.fst > not_a.fst
+fstunion capitalword.fst not_a.fst > p2d.fst
+
+fstdifference all_words.fst word_with_a_determinized.fst p2e.fst
+
 
 #Exercise 3
 #Transducer to map numbers to their English read form
@@ -136,7 +195,8 @@ fstconcat tenzeroone.fst allthousands.fst fullthousands.fst
 fstunion zero.fst fullthousands.fst Q.fst
 fstunion Q.fst fullhundreds.fst R.fst
 fstunion R.fst tenzeroone.fst allnumbers.fst
-fstconcat manyzeros.fst allnumbers.fst | fstrmepsilon - fullnumbersnoeps.fst
+fstconcat manyzeros.fst allnumbers.fst | fstrmepsilon | fstarcsort | fstdeterminize - fullnumbersnoeps.fst
+fstminimize fullnumbersnoeps.fst fullnumbersnoepsmin.fst
 
 #draw
 file=fullnumbersdisambuaguated
